@@ -7,5 +7,6 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/verify500pxCreds', pages.verifyCreds);
+router.post('/imagesFetch', pages.imagesFetch);
 
 module.exports = router;
