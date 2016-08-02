@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="utf-8">
+   <meta name="description" content="Fetch the selected photos from www.500px.com on click and show it on a simple HTML page.">
+   <title>500px-Node</title>
+</head>
+<body>
+   <div align="center">
+      <button id="fetchButton">Fetch</button>
+      <br>
+      <br>
+      <br>
+      <br>
+      <label id="credsLabel" style="color:blue;display:none;">Please Enter Your 500px Credentials</label>
+      <br>
+      <label id="errLabel" style="color:red;display:none;">Wrong Credentials</label>
+      <br>
+      <form id="credentials">
+         <table id="credentials" style="display:none;">
+            <tr>
+               <td><label>Username</label></td>
+               <td><input type="text" id="username" required></td>
+            </tr>
+            <tr>
+               <td><label>Password</label></td>
+               <td><input type="password" id="password" required></td>
+            </tr>
+            <tr>
+               <td></td>
+               <td><button>Submit</button></td>
+            </tr>
+         </table>
+      </form>
+   </div>
+   <script src="/js/jquery.min.js"></script>
+   <script src="/js/fetch.js"></script>
+</body>
