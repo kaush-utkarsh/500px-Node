@@ -1,5 +1,7 @@
+// the crawling related activities are stored in a seperate file
 var pxCrawl = require('../utils/500pxCrawl')
 
+// verify login credentials
 var verifyCreds = function (req, res) {
     var username = req.body.username
     var password = req.body.password
@@ -19,6 +21,7 @@ var verifyCreds = function (req, res) {
     })
 }
 
+// fetch images after successful login
 var imagesFetch = function (req, res) {
     var username = req.body.username
     var password = req.body.password
@@ -26,8 +29,8 @@ var imagesFetch = function (req, res) {
     	if(!err){
     		if(result['success']){
     			pxCrawl.fetchAllImages(result, function(err, imageSet){
-    				console.log(imageSet)
-    			
+    				// return the set of images fetched from the user's profile
+            		res.send({success: true, imageSet})    			
     			})
     		}
     		else{

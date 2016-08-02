@@ -12,6 +12,8 @@ var doLogin = function (credentials, callback) {
             callback(err, {"success": false})
         }
         $ = cheerio.load(body1);
+
+        // fetch csrf token for login request
         var authenticity_token = $('meta[name="csrf-token"]').attr('content');
         var formData = {'session[email]':credentials.username, 'session[password]':credentials.password,authenticity_token:authenticity_token}
         var headers = {}
@@ -41,11 +43,14 @@ var fetchAllImages = function (credentials, callback) {
     request.get({
         url: 'https://500px.com/manage/public',
         jar: cookieJar
-    }, function getCallBack(err, httpResponse, body1) {
+    }, function getCallBack(err, httpResponse1, body1) {
         if (err) {
             callback(err, {"success": false})
         }
+
         $ = cheerio.load(body1);
+
+        // Fetch AUTHORIZATION Token
         var authenticity_token = $('meta[name="csrf-token"]').attr('content');
         var headers = {}
         headers['Connection'] = "keep-alive"
@@ -56,15 +61,25 @@ var fetchAllImages = function (credentials, callback) {
         headers['Accept-Encoding'] = 'gzip, deflate, sdch'
         headers['Accept-Language'] = 'en-US,en;q=0.8'
         headers['Origin'] = 'https://500px.com'
+        headers['Referer'] = 'https://500px.com/manage/public'
+        headers['Host'] = 'webapi.500px.com'
+        headers['Cookie'] = cookieJar.getCookieString('https://500px.com/manage/public')
+        console.log(headers)
     	request.get({
-	        url: 'https://webapi.500px.com/organizer/library?sort=created_at&only_profile=true&page=1&rpp=100',
+            url: 'https://webapi.500px.com/organizer/sources/set?page=1&rpp=50&source=portfolio',
             headers: headers,
-	        jar: cookieJar
-	    }, function getCallBack(err, httpResponse, body2) {
-	    	console.log('fetched data')
-	    	console.log(body2)
-	    });
-
+            jar: cookieJar
+        }, function getCallBack(err, httpResponse2, body2) {
+            console.log(body2)
+            request.get({
+                url: 'https://webapi.500px.com/organizer/library?sort=created_at&only_profile=true&page=1&rpp=100',
+                headers: headers,
+                jar: cookieJar
+            }, function getCallBack(err, httpResponse3, body3) {
+                console.log('fetched data')
+                console.log(body3); // Returns wierd encoded data.
+            });
+        });
     });
 }
 

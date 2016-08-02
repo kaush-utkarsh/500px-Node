@@ -1,3 +1,5 @@
+
+// function to fetch all the images related to the user's profile
 function fetchImages(){
 	$.ajax({
         type: "POST",
@@ -10,13 +12,14 @@ function fetchImages(){
     });
 }
 
-
+// Shows the login form on fetch button click
 $('#fetchButton').click(function(e){
 	$('#fetchButton').hide()
 	$('#credsLabel').show()
 	$('table[id="credentials"]').show()
 })
 
+// handles credentials verification on login form submit
 $('form[id="credentials"]').on('submit',function(e){
 	e.preventDefault();
 	$('#errLabel').hide()
@@ -35,6 +38,8 @@ $('form[id="credentials"]').on('submit',function(e){
         		$('#waitLabel').hide()
         		$('#credentials').hide()
         		$('#imageWaitLabel').show()
+
+        		// calls the function to fetch all images on succesful login
         		fetchImages()
         	}
         	else
